@@ -7,21 +7,28 @@ const mDAutenticacion = require("../middlewares/autenticacion");
 
 const app = express();
 
-
 app.get("/", (req, res, next) => {
-  Usuario.find({}, "nombre email img role").exec((err, usuarios) => {
-    if (err) {
-      return res.status(500).json({
-        ok: false,
-        mensaje: "Error Cargando usuario",
-        errors: err
+  var desde = Number(req.query.desde) || 0;
+
+  Usuario.find({}, "nombre email img role")
+    .skip(desde)
+    .limit(5)
+    .exec((err, usuarios) => {
+      if (err) {
+        return res.status(500).json({
+          ok: false,
+          mensaje: "Error Cargando usuario",
+          errors: err
+        });
+      }
+      Usuario.count({}, (err, conteo) => {
+        res.status(200).json({
+          ok: true,
+          usuarios,
+          total: conteo
+        });
       });
-    }
-    res.status(200).json({
-      ok: true,
-      usuarios
     });
-  });
 });
 
 app.put("/:id", (req, res, next) => {
@@ -66,7 +73,7 @@ app.put("/:id", (req, res, next) => {
   });
 });
 
-app.post("/", mDAutenticacion.verificaToken , (req, res, next) => {
+app.post("/", mDAutenticacion.verificaToken, (req, res, next) => {
   var body = req.body;
 
   var usuario = new Usuario({
@@ -89,7 +96,7 @@ app.post("/", mDAutenticacion.verificaToken , (req, res, next) => {
     res.status(200).json({
       ok: true,
       usuarioGuardado,
-      usuariotoken:req.usuario
+      usuariotoken: req.usuario
     });
   });
 });
