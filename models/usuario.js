@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 var uniqueValidator = require("mongoose-unique-validator");
 
-
 var Schema = mongoose.Schema;
 
 var rolesValidos = {
@@ -24,6 +23,10 @@ var usuarioSchema = new Schema({
     required: true,
     default: "USER_ROLE",
     enum: rolesValidos
+  },
+  google: {
+    type: Boolean,
+    default: false
   }
 });
 

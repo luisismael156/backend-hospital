@@ -10,9 +10,8 @@ const app = express();
 app.get("/", (req, res, next) => {
   var desde = Number(req.query.desde) || 0;
 
-  Usuario.find({}, "nombre email img role")
+  Usuario.find({}, "nombre email img role google")
     .skip(desde)
-    .limit(5)
     .exec((err, usuarios) => {
       if (err) {
         return res.status(500).json({
