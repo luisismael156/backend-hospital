@@ -10,7 +10,7 @@ const app = express();
 app.get("/", (req, res, next) => {
   var desde = Number(req.query.desde) || 0;
 
-  Usuario.find({}, "nombre email img role google")
+  Usuario.find({})
     .skip(desde)
     .exec((err, usuarios) => {
       if (err) {
@@ -50,7 +50,6 @@ app.put("/:id", (req, res, next) => {
       });
     }
     usuario.nombre = body.nombre;
-    usuario.apellidos = body.apellidos;
     usuario.email = body.email;
     usuario.role = body.role;
 
@@ -72,12 +71,11 @@ app.put("/:id", (req, res, next) => {
   });
 });
 
-app.post("/", mDAutenticacion.verificaToken, (req, res, next) => {
+app.post("/", (req, res, next) => {
   var body = req.body;
 
   var usuario = new Usuario({
     nombre: body.nombre,
-    apellidos: body.apellidos,
     email: body.email,
     password: bcrypt.hashSync(body.password, 10),
     img: body.img,

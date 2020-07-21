@@ -62,19 +62,19 @@ app.post("/google", async (req, res) => {
           { expiresIn: 14400 } // 4 horas
         );
         res.status(200).json({
-         ok:true,
-         token:token
+          ok: true,
+          token: token,
+          usuario: usuarioDB,
+          id: usuarioDB._id
         });
       }
     } else {
       var usuario = new Usuario({
         nombre: googleUser.nombre,
-        apellidos: googleUser.nombre,
         email: googleUser.email,
         img: googleUser.img,
-        password: ':)',
+        password: ":)",
         google: true
-
       });
       usuario.save((err, usuarioGuardado) => {
         if (err) {
@@ -94,15 +94,13 @@ app.post("/google", async (req, res) => {
 
         res.status(200).json({
           ok: true,
-          usuarioGuardado,
-          token: token
+          usuario:usuarioGuardado,
+          token: token,
+          id:usuarioGuardado._id
         });
       });
-      
     }
   });
-
- 
 });
 
 app.post("/", (req, res, next) => {
@@ -141,8 +139,9 @@ app.post("/", (req, res, next) => {
     );
     res.status(200).json({
       ok: true,
-      usuarioLogin,
-      token: token
+      usuario:usuarioLogin,
+      token: token,
+      id:usuarioLogin._id,
     });
   });
 });
