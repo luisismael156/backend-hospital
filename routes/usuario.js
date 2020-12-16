@@ -71,15 +71,9 @@ app.put("/:id", (req, res, next) => {
   });
 });
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-app.post("/", (req, res, next) => {
-=======
+
+
 app.post("/",  (req, res, next) => {
->>>>>>> Stashed changes
-=======
-app.post("/",  (req, res, next) => {
->>>>>>> Stashed changes
   var body = req.body;
 
   var usuario = new Usuario({
